@@ -2,6 +2,8 @@ import { useState } from "react";
 import logo from "../assets/image 1.png";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { Link } from "react-scroll";
+import resumelink from '../assets/My_Resume.pdf'
 const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -18,16 +20,30 @@ const Navbar = () => {
 						<div className="hidden md:flex">
 							<div className="ml-10 flex items-baseline space-x-4">
 								{navLinks.map((e, i) => (
-									<button key={i} className="relative group  py-1 px-2.5  ">
-										<span className="absolute bottom-0 left-0 w-0 h-0.5 rounded-full bg-secondry group-hover:w-full group-hover:transition-all duration-200"></span>
-										{e}
-									</button>
+									<Link
+										to={e}
+										smooth={true}
+										duration={300}
+										key={i}
+										offset={-95}
+									>
+										<button className="relative group  py-1 px-2.5  ">
+											<span className="absolute bottom-0 left-0 w-0 h-0.5 rounded-full bg-secondry group-hover:w-full group-hover:transition-all duration-200"></span>
+											{e}
+										</button>
+									</Link>
 								))}
 							</div>
 						</div>
-						<button className="flex bg-secondry font-bold text-primary rounded-lg px-3 py-1 mr-5 lg:mr-0">
+						<motion.a
+							href={resumelink}
+							target="_blank"
+							whileTap={{ scale: 0.9 }}
+							whileHover={{color:"white" ,backgroundColor:"pink"}} 
+							className="flex bg-secondry font-semibold text-primary rounded-lg px-3 py-1 mr-5 lg:mr-0"
+						>
 							Resume
-						</button>
+						</motion.a>
 					</div>
 
 					{/* Mobile menu button */}
@@ -106,7 +122,6 @@ const Navbar = () => {
 									{e}
 								</motion.a>
 							))}
-							
 						</motion.div>
 					</motion.div>
 				)}
