@@ -19,9 +19,7 @@ const Footer = () => {
 					<div className="w-full h-px mt-2 bg-white opacity-20" />
 				</div>
 
-				<button className="px-6 py-3 border border-white rounded-full text-white font-semibold hover:bg-white hover:text-black transition-all duration-300">
-					Get a quote
-				</button>
+				
 
 				<div className="flex items-start space-x-4">
 					<div>

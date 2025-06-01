@@ -39,7 +39,7 @@ const Navbar = () => {
 							href={resumelink}
 							target="_blank"
 							whileTap={{ scale: 0.9 }}
-							whileHover={{color:"white" ,backgroundColor:"pink"}} 
+							whileHover={{color:"white" ,backgroundColor:"#242424"}} 
 							className="flex bg-secondry font-semibold text-primary rounded-lg px-3 py-1 mr-5 lg:mr-0"
 						>
 							Resume

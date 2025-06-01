@@ -12,13 +12,14 @@ import {
 import { TwitterLogo, GithubLogo, LinkedInLogo } from "../assets/logos.jsx";
 import { motion } from "motion/react";
 import { Element } from "react-scroll";
+import pfp from "../assets/cute-pfp-cat-with-anime-girl.jpg";
 
 const SocialLinks = [
 	{
 		name: "Twitter",
 		icon: <TwitterLogo />,
 		handleName: "@deadpool59",
-		link: "https://github.com/Kedar0023",
+		link: "https://x.com/itsdeadpool59",
 	},
 	{
 		name: "Github",
@@ -30,7 +31,7 @@ const SocialLinks = [
 		name: "LinkedIn",
 		icon: <LinkedInLogo />,
 		handleName: "@kedar_kolase",
-		link: "https://github.com/Kedar0023",
+		link: "https://www.linkedin.com/in/kedar-kolase-80a1a02a3",
 	},
 ];
 
@@ -74,7 +75,7 @@ export default function ProfileCard() {
 				<div className="flex flex-col md:flex-row items-center gap-6  h-[250px]">
 					<div className="w-32 h-32 md:w-32 ">
 						<img
-							src="https://wallpapers.com/images/hd/cute-pfp-cat-with-anime-girl-8ujt5n810yysk256.jpg"
+							src={pfp}
 							alt="Profile"
 							className="w-full h-full object-cover rounded-2xl"
 						/>
@@ -116,16 +117,15 @@ export default function ProfileCard() {
 					<div className="mt-6 w-full md:w-1/2">
 						<h2 className="font-bold text-xl mb-2">ABOUT ME</h2>
 						<p className="text-zinc-300">
-							I'm a passionate designer and developer with 6+ years of
-							experience creating beautiful, functional interfaces. I specialize
-							in React.js, Tailwind CSS, and responsive design principles that
-							deliver exceptional user experiences.
+							Developer and relentless learner with a vision for building
+							unique, impactful digital experiences.I tackle challenges
+							head-on and solve problems with my own creative twist.
 						</p>
 						<p className="text-zinc-400 mt-3">
-							When I'm not coding, I enjoy exploring new technologies, watching
-							anime, and experimenting with creative side projects. I believe in
-							continuous learning and staying ahead of design trends to deliver
-							innovative solutions to my clients.
+							I’m passionate about exploring new technologies, diving into
+							anime, and building creative side projects. Right now, I’ve
+							entered my Deep Learning and DevOps training arc, navigating this
+							sea of knowledge to find the One Piece
 						</p>
 					</div>
 
@@ -135,6 +135,7 @@ export default function ProfileCard() {
 							{SocialLinks.map((e, i) => (
 								<motion.a
 									href={e.link}
+									target="_blank"
 									whileTap={{ scale: 0.9 }}
 									key={i}
 									className="relative bg-zinc-950 h-auto rounded-xl px-4 py-2 flex items-center gap-5  "
