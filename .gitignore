@@ -7,14 +7,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
-
 # Editor directories and files
-.vscode/*
-!.vscode/extensions.json
 .idea
 .DS_Store
 *.suo
@@ -22,3 +15,22 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Security
+.env
+.env.local
+.env.*.local
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Lockfiles (since using Bun)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build
+dist
+dist-ssr
+*.local

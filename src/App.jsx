@@ -7,6 +7,8 @@ import logo from "./assets/narutologo.png";
 import Footer from "./components/Footer";
 import MouseFollower from "./components/animation/mousefollower";
 import { Element } from "react-scroll";
+import Aurora from './components/animation/Aurora';
+
 const App = () => {
 	const Lerning = ["neural networks", "deep learning", "kubernetes", "ML Ops"];
 
@@ -16,7 +18,6 @@ const App = () => {
 		`}
 		>
 			<Navbar />
-			<MouseFollower />
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				<ProfileCard />
 				<Projects />

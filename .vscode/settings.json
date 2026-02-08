@@ -1,0 +1,32 @@
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/node_modules": true,
+        // "**/dist": true,
+        "**/dist-ssr": true,
+        "**/coverage": true,
+        "**/.npm": true,
+        "**/.yarn": true,
+        "package-lock.json": true,
+        "yarn.lock": true,
+        "bun.lockb": true,
+        "bun.lock": true,
+        "**/tsconfig.json": true,
+        "**/eslint.config.js": true,
+        "**/vite.config.ts": true,
+        "**/postcss.config.js": true,
+    },
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/dist": true,
+        "**/dist-ssr": true,
+        "**.lockb": true,
+        "package-lock.json": true
+    },
+    "editor.formatOnSave": true
+}

@@ -1,4 +1,3 @@
-import React from "react";
 import StackIcon from "tech-stack-icons";
 
 const Button = ({ name, icon }) => {
