@@ -1,20 +1,52 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import logo from "../assets/image 1.png";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { Link } from "react-scroll";
 import resumelink from '../assets/My_Resume.pdf'
+import gsap from "gsap";
+
 const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false);
+	const navRef = useRef(null);
+
+	useEffect(() => {
+		const ctx = gsap.context(() => {
+			gsap.from(".nav-logo", {
+				y: -50,
+				opacity: 0,
+				duration: 1,
+				ease: "power3.out"
+			});
+
+			gsap.from(".nav-item", {
+				y: -50,
+				opacity: 0,
+				duration: 0.8,
+				stagger: 0.1,
+				ease: "power3.out",
+				delay: 0.2
+			});
+			gsap.from(".nav-resume", {
+				scale: 0,
+				opacity: 0,
+				duration: 0.5,
+				ease: "back.out(1.7)",
+				delay: 0.8
+			});
+		}, navRef);
+
+		return () => ctx.revert();
+	}, []);
 
 	const navLinks = ["About", "Projects", "Skills", "Contact"];
 
 	return (
-		<nav className="bg-zinc-800/30 fixed inset-0 h-16 backdrop-blur-md rounded-lg z-[9999]">
+		<nav ref={navRef} className="bg-zinc-800/30 fixed inset-0 h-16 backdrop-blur-md rounded-lg z-9999">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
 				<div className="flex items-center justify-between h-16">
 					<div className="w-full flex items-center justify-between">
-						<div className="flex-shrink-0">
+						<div className="shrink-0 nav-logo">
 							<img src={logo} alt="kedar" className="h-7" />
 						</div>
 						<div className="hidden md:flex">
@@ -27,7 +59,7 @@ const Navbar = () => {
 										key={i}
 										offset={-95}
 									>
-										<button className="relative group  py-1 px-2.5  ">
+										<button className="relative group py-1 px-2.5 nav-item">
 											<span className="absolute bottom-0 left-0 w-0 h-0.5 rounded-full bg-secondry group-hover:w-full group-hover:transition-all duration-200"></span>
 											{e}
 										</button>
@@ -39,8 +71,8 @@ const Navbar = () => {
 							href={resumelink}
 							target="_blank"
 							whileTap={{ scale: 0.9 }}
-							whileHover={{color:"white" ,backgroundColor:"#242424"}} 
-							className="flex bg-secondry font-semibold text-primary rounded-lg px-3 py-1 mr-5 lg:mr-0"
+							whileHover={{ color: "white", backgroundColor: "#242424" }}
+							className="flex bg-secondry font-semibold text-primary rounded-lg px-3 py-1 mr-5 lg:mr-0 nav-resume"
 						>
 							Resume
 						</motion.a>

@@ -19,6 +19,8 @@ html {
 body {
 	background-color: var(--color-primary);
 	color: var(--color-secondry);
+    overflow-x: hidden;
+    width: 100%;
 }
 
 .gradient-background {

@@ -13,6 +13,8 @@ import { TwitterLogo, GithubLogo, LinkedInLogo } from "../assets/logos.jsx";
 import { motion } from "motion/react";
 import { Element } from "react-scroll";
 import pfp from "../assets/cute-pfp-cat-with-anime-girl.jpg";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
 
 const SocialLinks = [
 	{
@@ -37,6 +39,56 @@ const SocialLinks = [
 
 export default function ProfileCard() {
 	let interval = null;
+	const componentRef = useRef(null);
+
+	useEffect(() => {
+		const ctx = gsap.context(() => {
+			gsap.from(".profile-card", {
+				y: 100,
+				opacity: 0,
+				duration: 1,
+				ease: "power3.out",
+				delay: 0.5
+			});
+
+			gsap.from(".profile-image", {
+				scale: 0.8,
+				opacity: 0,
+				duration: 1,
+				ease: "back.out(1.7)",
+				delay: 0.8
+			});
+
+			gsap.from(".profile-info > *", {
+				x: -30,
+				opacity: 0,
+				duration: 0.8,
+				stagger: 0.1,
+				delay: 1,
+				ease: "power2.out"
+			});
+
+			gsap.from(".about-section", {
+				y: 30,
+				opacity: 0,
+				duration: 0.8,
+				delay: 1.2,
+				ease: "power2.out"
+			});
+
+			gsap.from(".connect-section", {
+				y: 30,
+				opacity: 0,
+				duration: 0.8,
+				delay: 1.4,
+				ease: "power2.out"
+			});
+
+
+		}, componentRef);
+
+		return () => ctx.revert();
+	}, []);
 
 	const textHoverEffect = (e) => {
 		const originalText = e.target.dataset.value;
@@ -69,24 +121,34 @@ export default function ProfileCard() {
 		e.target.innerText = e.target.dataset.value;
 	};
 
+	// Animation for image hover
+	const onEnterImage = ({ currentTarget }) => {
+		gsap.to(currentTarget, { scale: 1.05, duration: 0.3 });
+	};
+
+	const onLeaveImage = ({ currentTarget }) => {
+		gsap.to(currentTarget, { scale: 1, duration: 0.3 });
+	};
+
+
 	return (
 		<Element name="About">
-			<div className="max-w-5xl mx-auto mt-5 p-6 gradient-background rounded-3xl shadow-lg text-secondry ">
+			<div ref={componentRef} className="max-w-5xl mx-auto mt-5 p-6 gradient-background rounded-3xl shadow-lg text-secondry profile-card">
 				<div className="flex flex-col md:flex-row items-center gap-6  h-[250px]">
-					<div className="w-32 h-32 md:w-32 ">
+					<div className="w-32 h-32 md:w-32 profile-image" onMouseEnter={onEnterImage} onMouseLeave={onLeaveImage}>
 						<img
 							src={pfp}
 							alt="Profile"
 							className="w-full h-full object-cover rounded-2xl"
 						/>
 					</div>
-					<div className="flex-1">
+					<div className="flex-1 profile-info">
 						<div className="flex items-center gap-2 mb-2">
 							<div className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
 							<p className="text-sm">AVAILABLE FOR HIRE</p>
 						</div>
 						<h1
-							className="inline-block text-3xl font-bold"
+							className="inline-block text-3xl font-bold cursor-default"
 							data-value="KEDAR KOLASE"
 							onMouseOver={textHoverEffect}
 							onMouseOut={resetText}
@@ -114,7 +176,7 @@ export default function ProfileCard() {
 				</div>
 
 				<div className="flex  flex-col md:flex-row  mt-20 md:mt-0 gap-2">
-					<div className="mt-6 w-full md:w-1/2">
+					<div className="mt-6 w-full md:w-1/2 about-section">
 						<h2 className="font-bold text-xl mb-2">ABOUT ME</h2>
 						<p className="text-zinc-300">
 							Developer and relentless learner with a vision for building
@@ -129,7 +191,7 @@ export default function ProfileCard() {
 						</p>
 					</div>
 
-					<div className="mt-6  w-full md:w-1/2">
+					<div className="mt-6  w-full md:w-1/2 connect-section">
 						<h2 className="font-bold text-xl mb-2">CONNECT</h2>
 						<div className="space-y-3">
 							{SocialLinks.map((e, i) => (

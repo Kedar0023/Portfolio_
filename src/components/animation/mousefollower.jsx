@@ -1,112 +1,49 @@
-// import React, { useEffect, useRef } from "react";
-
-// const MouseFollower = () => {
-// 	const followerRef = useRef(null);
-// 	useEffect(() => {
-// 		const handleMouseMove = (e) => {
-// 			const el = followerRef.current;
-// 			// add delay here 👇
-			
-// 				if (el) {
-// 					el.style.left = `${e.clientX}px`;
-// 					el.style.top = `${e.clientY}px`;
-// 				}
-			
-// 		};
-
-// 		window.addEventListener("mousemove", handleMouseMove);
-
-// 		return () => {
-// 			window.removeEventListener("mousemove", handleMouseMove);
-// 		};
-// 	}, []);
-
-// 	return (
-// 		<div
-// 			ref={followerRef}
-// 			className="fixed w-[20px] h-[20px] bg-secondry rounded-full pointer-events-none translate-x-[-50%] translate-y-[-50%] z-[9999]"
-// 		></div>
-// 	);
-// };
-
-// export default MouseFollower;
-
-
-
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
+import gsap from "gsap";
 
 const MouseFollower = () => {
 	const followerRef = useRef(null);
-	const posRef = useRef({ x: 0, y: 0, prevX: 0, prevY: 0, timestamp: 0 });
-	const [dimensions, setDimensions] = useState({ width: 25, height: 25 });
+	const xTo = useRef(null);
+	const yTo = useRef(null);
 
 	useEffect(() => {
 		const el = followerRef.current;
-		if (el) {
-			// Apply smooth transition for the delay effect
-			el.style.transition =
-				"transform 0.3s ease-out, width 0.2s ease-out, height 0.2s ease-out";
-		}
-	}, []);
 
-	useEffect(() => {
+		// Setup GSAP quickTo for high performance mouse following
+		xTo.current = gsap.quickTo(el, "x", { duration: 0.4, ease: "power3" });
+		yTo.current = gsap.quickTo(el, "y", { duration: 0.4, ease: "power3" });
+
+		// Initial set to avoid jump from top-left
+		gsap.set(el, { xPercent: -50, yPercent: -50, x: window.innerWidth / 2, y: window.innerHeight / 2 });
+
 		const handleMouseMove = (e) => {
-			const now = Date.now();
-			const el = followerRef.current;
+			xTo.current(e.clientX);
+			yTo.current(e.clientY);
+		};
 
-			if (el) {
-				// Calculate mouse speed
-				const speed =
-					Math.sqrt(
-						Math.pow(e.clientX - posRef.current.prevX, 2) +
-							Math.pow(e.clientY - posRef.current.prevY, 2)
-					) / (now - posRef.current.timestamp || 1);
+		const handleMouseDown = () => {
+			gsap.to(el, { scale: 0.8, duration: 0.1 });
+		};
 
-				// Update dimensions based on speed (with limits)
-				const baseSize = 25;
-				const stretchFactor = Math.min(speed * 0.5, 10); // Limit the maximum stretch
-				const newWidth = baseSize + stretchFactor;
-				const newHeight = Math.max(
-					baseSize - stretchFactor * 0.3,
-					baseSize * 0.7
-				); // Prevent too small height
-
-				setDimensions({
-					width: newWidth,
-					height: newHeight,
-				});
-
-				// Update position with smooth delay (handled by CSS transition)
-				el.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
-
-				// Store current position and time for next calculation
-				posRef.current = {
-					x: e.clientX,
-					y: e.clientY,
-					prevX: posRef.current.x,
-					prevY: posRef.current.y,
-					timestamp: now,
-				};
-			}
+		const handleMouseUp = () => {
+			gsap.to(el, { scale: 1, duration: 0.1 });
 		};
 
 		window.addEventListener("mousemove", handleMouseMove);
+		window.addEventListener("mousedown", handleMouseDown);
+		window.addEventListener("mouseup", handleMouseUp);
+
 		return () => {
 			window.removeEventListener("mousemove", handleMouseMove);
+			window.removeEventListener("mousedown", handleMouseDown);
+			window.removeEventListener("mouseup", handleMouseUp);
 		};
 	}, []);
 
 	return (
 		<div
 			ref={followerRef}
-			className="fixed w-[20px] h-[20px] bg-secondry rounded-full pointer-events-none z-[9999]"
-			style={{
-				width: `${dimensions.width}px`,
-				height: `${dimensions.height}px`,
-				left: 0,
-				top: 0,
-				transform: "translate(0, 0) translate(-50%, -50%)",
-			}}
+			className="fixed top-0 left-0 w-[20px] h-[20px] bg-secondry rounded-full pointer-events-none z-[9999]"
 		></div>
 	);
 };
